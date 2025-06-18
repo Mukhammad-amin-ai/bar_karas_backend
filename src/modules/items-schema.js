@@ -11,8 +11,8 @@ const items = new mongoose.Schema({
   restaurant: { type: Number },
   img: { type: String, default: '' },
   name: { type: String, default: '' },
-  price: { type: String, default: 0 },
-  weight: { type: String, default: 0 },
+  price: { type: Number, default: 0 },
+  weight: { type: Number, default: 0 },
   description: { type: String, default: '' },
   macros: { type: macros, default: () => ({}) },
   category: {
