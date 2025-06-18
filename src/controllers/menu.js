@@ -91,5 +91,83 @@ class MenuController {
       return res.status(500).json(e);
     }
   }
+
+  async updateMenu(req, res) {
+    try {
+      const restaurantId = req.headers['x-restaurant-id'];
+      if (!restaurantId) {
+        return res.status(404).json({ message: 'There is no such restaurant' });
+      }
+
+      const { id } = req.params;
+      const menu = await MenuSchema.findById(id);
+      if (!menu) {
+        return res.status(404).json({ message: 'There is no such menu' });
+      }
+      const data = req.body;
+      delete data.restaurant;
+      const updatedMenu = await MenuSchema.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+
+      return res.status(200).json(updatedMenu);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json(e);
+    }
+  }
+
+  async updateCategory(req, res) {
+    try {
+      const restaurantId = req.headers['x-restaurant-id'];
+      const { id } = req.params;
+      if (!restaurantId) {
+        return res.status(404).json({ message: 'There is no such restaurant' });
+      }
+      const category = await CateforySchema.findById(id);
+      if (!category) {
+        return res.status(404).json({ message: 'There is no such menu' });
+      }
+
+      const data = req.body;
+      delete data.restaurant;
+      delete data.menu;
+      const updatedCategory = await CateforySchema.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+
+      return res.status(200).json(updatedCategory);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json(e);
+    }
+  }
+
+  async updateItem(req, res) {
+    try {
+      const restaurantId = req.headers['x-restaurant-id'];
+      const { id } = req.params;
+      if (!restaurantId) {
+        return res.status(404).json({ message: 'There is no such restaurant' });
+      }
+      const items = await ItemsSchema.findById(id);
+
+      if (!items) {
+        return res.status(404).json({ message: 'There is no such item' });
+      }
+
+      const data = req.body;
+      delete data.restaurant;
+      delete data.category;
+      const updatedItem = await ItemsSchema.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+
+      return res.status(200).json(updatedItem);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json(e);
+    }
+  }
 }
 export default new MenuController();
