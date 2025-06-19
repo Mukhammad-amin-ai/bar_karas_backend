@@ -5,6 +5,7 @@ import { CheckRestaurantId } from '../middleware/menu-middleware.js';
 let router = new Router();
 
 router.get('/menu', CheckRestaurantId, MenuController.GetAllMenu);
+router.get('/menu-category', CheckRestaurantId, MenuController.GetMenu);
 
 router.post('/menu', CheckRestaurantId, MenuController.CreateMenu);
 router.post(

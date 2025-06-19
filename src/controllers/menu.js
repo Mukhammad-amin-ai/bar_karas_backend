@@ -45,11 +45,56 @@ class MenuController {
     }
   }
 
+  async GetMenu(req, res) {
+    try {
+      const restaurantId = req.headers['x-restaurant-id'];
+      if (!restaurantId) {
+        return res
+          .status(400)
+          .json({ error: 'Missing x-restaurant-id header' });
+      }
+
+      const menus = await MenuSchema.find({ restaurant: restaurantId }).lean();
+      const categories = await CateforySchema.find({
+        restaurant: restaurantId,
+      }).lean();
+
+      const response = menus.map((menu) => {
+        const menuCategories = categories
+          .filter((cat) => String(cat.menu) === String(menu._id))
+          .map((cat) => {
+            return {
+              ...cat,
+            };
+          });
+
+        return {
+          _id: menu._id,
+          restaurant: menu.restaurant,
+          name: menu.name,
+          itemCategories: menuCategories,
+        };
+      });
+
+      return res.status(200).json(response);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json(e);
+    }
+  }
+
   async CreateMenu(req, res) {
     try {
+      const restaurant = parseInt(req.headers['x-restaurant-id']);
+      const CurrentMenu = await MenuSchema.find({ restaurant: restaurant });
+
+      if (CurrentMenu.length > 0) {
+        return res.status(403).json({ message: 'db has such restaurant' });
+      }
+
       const menu = await MenuSchema.create({
         name: req.body.name,
-        restaurant: parseInt(req.headers['x-restaurant-id']),
+        restaurant: restaurant,
       });
       return res
         .status(201)
