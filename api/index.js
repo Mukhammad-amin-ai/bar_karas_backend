@@ -9,12 +9,14 @@ const PORT = process.env.PORT || 3000;
 const DB =
   'mongodb+srv://aminahmadov123:dBoAPy0wCrlWD1NE@cluster0.fzyts.mongodb.net/BARKARAS?retryWrites=true&w=majority&appName=Cluster0';
 
+app.use(Express.json());
+
 app.use(
   cors({
     origin: ['http://localhost:5173'],
   })
 );
-app.use(Express.json());
+
 app.use('/api', router);
 
 const StarterFunc = async () => {
@@ -43,4 +45,4 @@ const StarterFunc = async () => {
   }
 };
 
-StarterFunc();
+StarterFunc().then(() => console.log('Server started successfully!'));
