@@ -1,8 +1,6 @@
-// migrations/convert-itemsizes-to-array.js
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 const DB =
   'mongodb+srv://aminahmadov123:dBoAPy0wCrlWD1NE@cluster0.fzyts.mongodb.net/BARKARAS?retryWrites=true&w=majority&appName=Cluster0';
