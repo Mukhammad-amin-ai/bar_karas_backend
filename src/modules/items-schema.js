@@ -1,10 +1,23 @@
 import mongoose from 'mongoose';
 
-const macros = new mongoose.Schema({
-  kilocalories: { type: Number, default: 0 },
+const nutrition = new mongoose.Schema({
+  fats: { type: Number, default: 0 },
   proteins: { type: Number, default: 0 },
-  fat: { type: Number, default: 0 },
-  Carbohydrates: { type: Number, default: 0 },
+  kilocalories: { type: Number, default: 0 },
+  carbs: { type: Number, default: 0 },
+  energy: { type: Number, default: 0 },
+  salt: { type: Number, default: 0 },
+  sugar: { type: Number, default: 0 },
+});
+
+const itemSizes = new mongoose.Schema({
+  name: { type: String, default: '' },
+  image: { type: String, default: '' },
+  nutritionPerHundredGrams: {
+    type: nutrition,
+  },
+  isDefault: { type: Boolean },
+  price: { type: Number, default: 0 },
 });
 
 const items = new mongoose.Schema({
@@ -14,11 +27,13 @@ const items = new mongoose.Schema({
   price: { type: Number, default: 0 },
   weight: { type: Number, default: 0 },
   description: { type: String, default: '' },
-  macros: { type: macros, default: () => ({}) },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
+  },
+  itemSizes: {
+    type: [itemSizes],
   },
 });
 
