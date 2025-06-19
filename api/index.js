@@ -2,7 +2,6 @@ import Express from 'express';
 import mongoose from 'mongoose';
 import router from '../src/routes/routes.js';
 import cors from 'cors';
-
 const app = Express();
 const PORT = process.env.PORT || 3000;
 // const DB = 'mongodb://localhost:27017/BARKARAS';
